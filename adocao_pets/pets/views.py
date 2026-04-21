@@ -7,6 +7,19 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import PetForm
 from .models import Pet
 
+def home_view(request):
+    pets_destaque = Pet.objects.filter(
+        status=Pet.STATUS_DISPONIVEL,
+    )[:4]
+
+    total_disponiveis = Pet.objects.filter(status=Pet.STATUS_DISPONIVEL).count()
+
+    context = {
+        'pets_destaque': pets_destaque,
+        'total_disponiveis': total_disponiveis,
+    }
+    return render(request, 'pets/home.html', context)
+
 
 def staff_required(view_func):
     @wraps(view_func)
