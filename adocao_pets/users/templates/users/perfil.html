@@ -1,36 +1,37 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Perfil - PetAdoção</title>
-</head>
-<body>
-  <main>
+{% extends 'base.html' %}
+
+{% block title %}Perfil - PetAdoção{% endblock %}
+
+{% block content %}
+  <section class="profile-card">
     <h1>Meu perfil</h1>
 
-    {% if messages %}
-      {% for message in messages %}
-        <p>{{ message }}</p>
-      {% endfor %}
-    {% endif %}
+    <div class="profile-list">
+      <div class="profile-row">
+        <span>Usuário</span>
+        <strong>{{ user.username }}</strong>
+      </div>
+      <div class="profile-row">
+        <span>E-mail</span>
+        <strong>{{ user.email|default:"Não informado" }}</strong>
+      </div>
+      <div class="profile-row">
+        <span>Tipo de usuário</span>
+        <strong>
+          {% if user.is_staff %}
+            Administrador / ONG
+          {% else %}
+            Usuário comum
+          {% endif %}
+        </strong>
+      </div>
+    </div>
 
-    <p><strong>Usuário:</strong> {{ user.username }}</p>
-    <p><strong>E-mail:</strong> {{ user.email|default:"Não informado" }}</p>
-    <p>
-      <strong>Tipo de usuário:</strong>
+    <div class="form-actions">
       {% if user.is_staff %}
-        Administrador / ONG
-      {% else %}
-        Usuário comum
+        <a href="/admin/" class="btn btn-secondary">Admin Django</a>
       {% endif %}
-    </p>
-
-    {% if user.is_staff %}
-      <p><a href="/admin/">Acessar admin do Django</a></p>
-    {% endif %}
-
-    <p><a href="{% url 'users:logout' %}">Sair</a></p>
-  </main>
-</body>
-</html>
+      <a href="{% url 'users:logout' %}" class="btn btn-primary">Sair</a>
+    </div>
+  </section>
+{% endblock %}
