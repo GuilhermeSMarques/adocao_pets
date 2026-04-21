@@ -393,6 +393,17 @@ main {
   font-size: 1.12rem;
 }
 
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.hero .btn-secondary {
+  background: rgba(255, 255, 255, .92);
+}
+
 .section {
   margin-bottom: 48px;
 }

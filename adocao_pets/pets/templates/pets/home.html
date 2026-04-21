@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Início - PetAdoção{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Adote um amigo</h1>
+      <p>
+        Encontre pets que estão esperando por um lar responsável e cheio de cuidado.
+      </p>
+      <div class="hero-actions">
+        <a href="{% url 'pets:pet_list' %}" class="btn btn-primary btn-lg">Ver pets disponíveis</a>
+        {% if not user.is_authenticated %}
+          <a href="{% url 'users:register' %}" class="btn btn-secondary btn-lg">Criar conta</a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <h2>Pets em destaque</h2>
+        <p class="subtitle">
+          {% if total_disponiveis %}
+            {{ total_disponiveis }} pet(s) disponível(is) para adoção no momento.
+          {% else %}
+            Novos pets serão cadastrados em breve.
+          {% endif %}
+        </p>
+      </div>
+      <a href="{% url 'pets:pet_list' %}" class="btn btn-secondary">Ver todos</a>
+    </div>
+
+    <div class="pet-grid">
+      {% for pet in pets_destaque %}
+        <article class="pet-card">
+          {% if pet.foto %}
+            <img src="{{ pet.foto.url }}" alt="{{ pet.nome }}" class="pet-card-img">
+          {% else %}
+            <img src="{% static 'img/pet1.jpg' %}" alt="{{ pet.nome }}" class="pet-card-img">
+          {% endif %}
+
+          <div class="pet-card-body">
+            <h3 class="pet-card-name">{{ pet.nome }}</h3>
+            <p class="pet-card-meta">
+              {{ pet.idade }} ano(s) • {{ pet.get_especie_display }} • {{ pet.get_porte_display }}
+            </p>
+            <a href="{% url 'pets:pet_detail' pet.pk %}" class="btn btn-primary">Ver detalhes</a>
+          </div>
+        </article>
+      {% empty %}
+        <div class="pet-card">
+          <img src="{% static 'img/pet1.jpg' %}" alt="Pet aguardando cadastro" class="pet-card-img">
+          <div class="pet-card-body">
+            <h3 class="pet-card-name">Thor</h3>
+            <p class="pet-card-meta">Exemplo • Cachorro • Pequeno</p>
+            <span class="status status-disponivel">Disponível em breve</span>
+          </div>
+        </div>
+
+        <div class="pet-card">
+          <img src="{% static 'img/pet2.jpg' %}" alt="Pet aguardando cadastro" class="pet-card-img">
+          <div class="pet-card-body">
+            <h3 class="pet-card-name">Mel</h3>
+            <p class="pet-card-meta">Exemplo • Gato • Pequeno</p>
+            <span class="status status-disponivel">Disponível em breve</span>
+          </div>
+        </div>
+
+        <div class="pet-card">
+          <img src="{% static 'img/pet3.jpg' %}" alt="Pet aguardando cadastro" class="pet-card-img">
+          <div class="pet-card-body">
+            <h3 class="pet-card-name">Rex</h3>
+            <p class="pet-card-meta">Exemplo • Cachorro • Grande</p>
+            <span class="status status-disponivel">Disponível em breve</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

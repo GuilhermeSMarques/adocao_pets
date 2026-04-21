@@ -10,13 +10,13 @@
 <body>
   <header class="navbar">
     <div class="navbar-inner">
-      <a href="/" class="brand" aria-label="Página inicial">
+      <a href="{% url 'pets:home' %}" class="brand" aria-label="Página inicial">
         <span class="brand-mark">PA</span>
         <span>PetAdoção</span>
       </a>
 
       <nav class="nav-links" aria-label="Navegação principal">
-        <a href="/">Home</a>
+        <a href="{% url 'pets:home' %}">Home</a>
         <a href="{% url 'pets:pet_list' %}">Pets</a>
 
         {% if user.is_authenticated %}
