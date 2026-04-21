@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Perfil - PetAdoção{% endblock %}
+
+{% block content %}
+  <section class="profile-card">
+    <h1>Meu perfil</h1>
+
+    <div class="profile-list">
+      <div class="profile-row">
+        <span>Usuário</span>
+        <strong>{{ user.username }}</strong>
+      </div>
+      <div class="profile-row">
+        <span>E-mail</span>
+        <strong>{{ user.email|default:"Não informado" }}</strong>
+      </div>
+      <div class="profile-row">
+        <span>Tipo de usuário</span>
+        <strong>
+          {% if user.is_staff %}
+            Administrador / ONG
+          {% else %}
+            Usuário comum
+          {% endif %}
+        </strong>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      {% if user.is_staff %}
+        <a href="/admin/" class="btn btn-secondary">Admin Django</a>
+      {% endif %}
+      <a href="{% url 'users:logout' %}" class="btn btn-primary">Sair</a>
+    </div>
+  </section>
+{% endblock %}

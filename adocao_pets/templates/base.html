@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}PetAdoção{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="{% url 'pets:home' %}" class="brand" aria-label="Página inicial">
+        <span class="brand-mark">PA</span>
+        <span>PetAdoção</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="{% url 'pets:home' %}">Home</a>
+        <a href="{% url 'pets:pet_list' %}">Pets</a>
+
+        {% if user.is_authenticated %}
+          {% if user.is_staff %}
+            <a href="/dashboard/">Dashboard</a>
+            <a href="{% url 'pets:pet_create' %}">Cadastrar pet</a>
+            <a href="/solicitacoes/">Solicitações</a>
+          {% else %}
+            <a href="/minhas-solicitacoes/">Minhas solicitações</a>
+          {% endif %}
+
+          <a href="{% url 'users:perfil' %}">{{ user.username }}</a>
+          <a href="{% url 'users:logout' %}" class="nav-cta">Sair</a>
+        {% else %}
+          <a href="{% url 'users:login' %}">Login</a>
+          <a href="{% url 'users:register' %}" class="nav-cta">Cadastre-se</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <strong>PetAdoção</strong>
+      <p>&copy; {% now "Y" %} Sistema acadêmico de adoção de pets.</p>
+    </div>
+  </footer>
+</body>
+</html>

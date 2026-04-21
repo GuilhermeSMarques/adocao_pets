@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro - PetAdoção{% endblock %}
+
+{% block content %}
+  <div class="auth-wrap">
+    <section class="form-card">
+      <h1>Criar uma conta</h1>
+      <p class="form-subtitle">Cadastre-se para solicitar adoção de pets.</p>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="form-group">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
+            <small class="form-help">{{ field.help_text|safe }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <p class="form-error">{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      {% if form.non_field_errors %}
+        <div class="alert alert-error">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <button type="submit" class="btn btn-primary btn-block btn-lg">Cadastrar</button>
+    </form>
+
+      <p class="auth-footer">
+        Já tem conta? <a href="{% url 'users:login' %}">Entrar</a>
+      </p>
+    </section>
+  </div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ pet.nome }} - PetAdoção{% endblock %}
+
+{% block content %}
+  <a href="{% url 'pets:pet_list' %}" class="btn btn-ghost back-link">Voltar para pets</a>
+
+  <article class="pet-detail">
+    <div>
+      {% if pet.foto %}
+        <img src="{{ pet.foto.url }}" alt="{{ pet.nome }}" class="pet-detail-img">
+      {% else %}
+        <img src="{% static 'img/pet1.jpg' %}" alt="{{ pet.nome }}" class="pet-detail-img">
+      {% endif %}
+    </div>
+
+    <div class="pet-detail-content">
+      <h1>{{ pet.nome }}</h1>
+      <p class="pet-card-meta">
+        {{ pet.get_especie_display }} • {{ pet.raca|default:"Sem raça definida" }}
+      </p>
+
+      <ul class="pet-info-list">
+        <li>
+          <span>Idade</span>
+          <strong>{{ pet.idade }} ano(s)</strong>
+        </li>
+        <li>
+          <span>Porte</span>
+          <strong>{{ pet.get_porte_display }}</strong>
+        </li>
+        <li>
+          <span>Status</span>
+          <strong>{{ pet.get_status_display }}</strong>
+        </li>
+        <li>
+          <span>Cadastrado em</span>
+          <strong>{{ pet.data_cadastro|date:"d/m/Y" }}</strong>
+        </li>
+      </ul>
+
+      <p class="pet-description">{{ pet.descricao }}</p>
+
+      <div class="form-actions detail-actions">
+        {% if user.is_authenticated and user.is_staff %}
+          <a href="{% url 'pets:pet_update' pet.pk %}" class="btn btn-secondary">Editar</a>
+          <a href="{% url 'pets:pet_delete' pet.pk %}" class="btn btn-danger">Excluir</a>
+        {% endif %}
+      </div>
+    </div>
+  </article>
+{% endblock %}
