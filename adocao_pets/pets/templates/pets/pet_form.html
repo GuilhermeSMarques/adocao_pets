@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if form.instance.pk %}Editar pet{% else %}Cadastrar pet{% endif %} - PetAdoção
+{% endblock %}
+
+{% block content %}
+  <section class="form-card wide">
+    <h1>{% if form.instance.pk %}Editar pet{% else %}Cadastrar pet{% endif %}</h1>
+    <p class="form-subtitle">Preencha os dados do pet para manter o cadastro atualizado.</p>
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="form-group">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+
+          {% if field.help_text %}
+            <small class="form-help">{{ field.help_text }}</small>
+          {% endif %}
+
+          {% for error in field.errors %}
+            <p class="form-error">{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      {% if form.non_field_errors %}
+        <div class="alert alert-error">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="form-actions">
+        <a href="{% url 'pets:pet_list' %}" class="btn btn-ghost">Cancelar</a>
+        <button type="submit" class="btn btn-primary">
+          {% if form.instance.pk %}Salvar alterações{% else %}Cadastrar pet{% endif %}
+        </button>
+      </div>
+    </form>
+  </section>
+{% endblock %}

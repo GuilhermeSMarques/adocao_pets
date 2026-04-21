@@ -17,11 +17,12 @@
 
       <nav class="nav-links" aria-label="Navegação principal">
         <a href="/">Home</a>
-        <a href="/pets/">Pets</a>
+        <a href="{% url 'pets:pet_list' %}">Pets</a>
 
         {% if user.is_authenticated %}
           {% if user.is_staff %}
             <a href="/dashboard/">Dashboard</a>
+            <a href="{% url 'pets:pet_create' %}">Cadastrar pet</a>
             <a href="/solicitacoes/">Solicitações</a>
           {% else %}
             <a href="/minhas-solicitacoes/">Minhas solicitações</a>
