@@ -12,6 +12,7 @@ from .forms import (
 )
 from .models import Pet, SolicitacaoAdocao
 
+
 def home_view(request):
     pets_destaque = Pet.objects.filter(
         status=Pet.STATUS_DISPONIVEL,
@@ -27,6 +28,7 @@ def home_view(request):
 
 
 def staff_required(view_func):
+    # Centraliza a regra de acesso das telas administrativas do app pets.
     @wraps(view_func)
     @login_required
     def wrapper(request, *args, **kwargs):
@@ -145,6 +147,10 @@ def criar_solicitacao_view(request, pet_pk):
 
 @login_required
 def minhas_solicitacoes_view(request):
+    if request.user.is_staff:
+        messages.info(request, 'Administradores devem acessar a listagem geral de solicitações.')
+        return redirect('pets:listar_solicitacoes')
+
     solicitacoes = SolicitacaoAdocao.objects.filter(usuario=request.user).select_related('pet')
     return render(
         request,
@@ -176,6 +182,7 @@ def atualizar_status_solicitacao_view(request, pk):
             solicitacao = form.save()
             pet = solicitacao.pet
 
+            # Mantem o status do pet coerente com a decisao administrativa.
             if solicitacao.status == SolicitacaoAdocao.STATUS_APROVADA:
                 pet.status = Pet.STATUS_ADOTADO
             elif solicitacao.status == SolicitacaoAdocao.STATUS_RECUSADA:
