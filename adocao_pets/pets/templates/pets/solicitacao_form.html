@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Solicitar adoção - PetAdoção{% endblock %}
+
+{% block content %}
+  <section class="form-card wide">
+    <h1>Solicitar adoção</h1>
+    <p class="form-subtitle">Envie uma mensagem para a ONG sobre o interesse em adotar {{ pet.nome }}.</p>
+
+    <div class="request-pet-summary">
+      {% if pet.foto %}
+        <img src="{{ pet.foto.url }}" alt="{{ pet.nome }}">
+      {% else %}
+        <img src="{% static 'img/pet1.jpg' %}" alt="{{ pet.nome }}">
+      {% endif %}
+      <div>
+        <strong>{{ pet.nome }}</strong>
+        <p>{{ pet.get_especie_display }} • {{ pet.get_porte_display }} • {{ pet.idade }} ano(s)</p>
+      </div>
+    </div>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="form-group">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% for error in field.errors %}
+            <p class="form-error">{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <div class="form-actions">
+        <a href="{% url 'pets:pet_detail' pet.pk %}" class="btn btn-ghost">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Enviar solicitação</button>
+      </div>
+    </form>
+  </section>
+{% endblock %}

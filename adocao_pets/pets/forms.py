@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Pet
+from .models import Pet, SolicitacaoAdocao
 
 
 class PetForm(forms.ModelForm):
@@ -25,4 +25,28 @@ class PetForm(forms.ModelForm):
             'descricao': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
             'status': forms.Select(attrs={'class': 'form-control'}),
             'foto': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+
+
+class SolicitacaoAdocaoForm(forms.ModelForm):
+    class Meta:
+        model = SolicitacaoAdocao
+        fields = ['mensagem']
+        widgets = {
+            'mensagem': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'rows': 5,
+                    'placeholder': 'Conte por que você quer adotar este pet.',
+                },
+            ),
+        }
+
+
+class AtualizarStatusSolicitacaoForm(forms.ModelForm):
+    class Meta:
+        model = SolicitacaoAdocao
+        fields = ['status']
+        widgets = {
+            'status': forms.Select(attrs={'class': 'form-control'}),
         }

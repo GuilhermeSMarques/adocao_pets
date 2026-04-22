@@ -46,6 +46,10 @@
         {% if user.is_authenticated and user.is_staff %}
           <a href="{% url 'pets:pet_update' pet.pk %}" class="btn btn-secondary">Editar</a>
           <a href="{% url 'pets:pet_delete' pet.pk %}" class="btn btn-danger">Excluir</a>
+        {% elif user.is_authenticated and pet.status == 'disponivel' %}
+          <a href="{% url 'pets:criar_solicitacao' pet.pk %}" class="btn btn-primary">Solicitar adoção</a>
+        {% elif not user.is_authenticated and pet.status == 'disponivel' %}
+          <a href="{% url 'users:login' %}" class="btn btn-primary">Faça login para adotar</a>
         {% endif %}
       </div>
     </div>

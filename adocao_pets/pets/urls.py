@@ -11,4 +11,25 @@ urlpatterns = [
     path('pets/<int:pk>/', views.pet_detail_view, name='pet_detail'),
     path('pets/<int:pk>/editar/', views.pet_update_view, name='pet_update'),
     path('pets/<int:pk>/excluir/', views.pet_delete_view, name='pet_delete'),
+    path(
+        'pets/<int:pet_pk>/solicitar/',
+        views.criar_solicitacao_view,
+        name='criar_solicitacao',
+    ),
+    path(
+        'minhas-solicitacoes/',
+        views.minhas_solicitacoes_view,
+        name='minhas_solicitacoes',
+    ),
+    path(
+        'solicitacoes/',
+        views.listar_solicitacoes_view,
+        name='listar_solicitacoes',
+    ),
+    path(
+        'solicitacoes/<int:pk>/status/',
+        views.atualizar_status_solicitacao_view,
+        name='atualizar_status_solicitacao',
+    ),
+    path('dashboard/', views.admin_dashboard_view, name='admin_dashboard'),
 ]

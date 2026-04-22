@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Solicitações - PetAdoção{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <h1>Solicitações de adoção</h1>
+        <p class="subtitle">Gerencie os pedidos enviados pelos usuários.</p>
+      </div>
+      <a href="{% url 'pets:admin_dashboard' %}" class="btn btn-secondary">Dashboard</a>
+    </div>
+
+    {% if solicitacoes %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Usuário</th>
+              <th>Pet</th>
+              <th>Data</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for solicitacao in solicitacoes %}
+              <tr>
+                <td>
+                  <strong>{{ solicitacao.usuario.username }}</strong><br>
+                  <small>{{ solicitacao.usuario.email|default:"Sem e-mail" }}</small>
+                </td>
+                <td>{{ solicitacao.pet.nome }}</td>
+                <td>{{ solicitacao.data_solicitacao|date:"d/m/Y H:i" }}</td>
+                <td>
+                  <span class="status status-{{ solicitacao.status }}">
+                    {{ solicitacao.get_status_display }}
+                  </span>
+                </td>
+                <td>
+                  <a href="{% url 'pets:atualizar_status_solicitacao' solicitacao.pk %}" class="btn btn-primary">
+                    Alterar status
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty">
+        <h2>Nenhuma solicitação encontrada</h2>
+        <p>Quando usuários solicitarem adoção, os pedidos aparecerão aqui.</p>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

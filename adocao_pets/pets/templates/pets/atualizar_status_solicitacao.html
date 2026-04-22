@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Atualizar solicitação - PetAdoção{% endblock %}
+
+{% block content %}
+  <section class="form-card">
+    <h1>Atualizar solicitação</h1>
+    <p class="form-subtitle">{{ solicitacao.usuario.username }} solicitou adoção de {{ solicitacao.pet.nome }}.</p>
+
+    <div class="profile-list">
+      <div class="profile-row">
+        <span>Pet</span>
+        <strong>{{ solicitacao.pet.nome }}</strong>
+      </div>
+      <div class="profile-row">
+        <span>Solicitante</span>
+        <strong>{{ solicitacao.usuario.username }}</strong>
+      </div>
+      <div class="profile-row">
+        <span>Mensagem</span>
+        <strong>{{ solicitacao.mensagem }}</strong>
+      </div>
+    </div>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="form-group">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% for error in field.errors %}
+            <p class="form-error">{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <div class="form-actions">
+        <a href="{% url 'pets:listar_solicitacoes' %}" class="btn btn-ghost">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Salvar status</button>
+      </div>
+    </form>
+  </section>
+{% endblock %}

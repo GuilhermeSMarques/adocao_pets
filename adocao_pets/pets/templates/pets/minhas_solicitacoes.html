@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Minhas solicitações - PetAdoção{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <h1>Minhas solicitações</h1>
+        <p class="subtitle">Acompanhe o andamento dos seus pedidos de adoção.</p>
+      </div>
+      <a href="{% url 'pets:pet_list' %}" class="btn btn-secondary">Ver pets</a>
+    </div>
+
+    {% if solicitacoes %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Pet</th>
+              <th>Data</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for solicitacao in solicitacoes %}
+              <tr>
+                <td>{{ solicitacao.pet.nome }}</td>
+                <td>{{ solicitacao.data_solicitacao|date:"d/m/Y H:i" }}</td>
+                <td>
+                  <span class="status status-{{ solicitacao.status }}">
+                    {{ solicitacao.get_status_display }}
+                  </span>
+                </td>
+                <td>
+                  <a href="{% url 'pets:pet_detail' solicitacao.pet.pk %}" class="btn btn-ghost">Ver pet</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty">
+        <h2>Você ainda não enviou solicitações</h2>
+        <p>Veja os pets disponíveis e envie seu primeiro pedido de adoção.</p>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

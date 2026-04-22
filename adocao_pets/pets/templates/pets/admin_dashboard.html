@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - PetAdoção{% endblock %}
+
+{% block content %}
+  <section class="dashboard-header">
+    <h1>Painel administrativo</h1>
+    <p>Gerencie pets cadastrados e solicitações de adoção.</p>
+  </section>
+
+  <section class="dashboard-grid">
+    <article class="dashboard-card">
+      <h2>{{ total_pets }}</h2>
+      <p>Total de pets cadastrados</p>
+      <a href="{% url 'pets:pet_list' %}" class="btn btn-secondary">Ver pets</a>
+    </article>
+
+    <article class="dashboard-card">
+      <h2>{{ pets_disponiveis }}</h2>
+      <p>Pets disponíveis para adoção</p>
+      <a href="{% url 'pets:pet_create' %}" class="btn btn-primary">Cadastrar pet</a>
+    </article>
+
+    <article class="dashboard-card">
+      <h2>{{ solicitacoes_pendentes }}</h2>
+      <p>Solicitações pendentes</p>
+      <a href="{% url 'pets:listar_solicitacoes' %}" class="btn btn-secondary">Ver solicitações</a>
+    </article>
+  </section>
+{% endblock %}
