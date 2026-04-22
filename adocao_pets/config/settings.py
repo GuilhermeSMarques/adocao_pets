@@ -186,6 +186,7 @@ STORAGES = {
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+SERVE_MEDIA_FILES = env_bool('SERVE_MEDIA_FILES', default=True)
 
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'pets:home'
